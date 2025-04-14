@@ -68,6 +68,7 @@ Il dataset Titanic è un ottimo punto di partenza per l'apprendimento supervisio
 
 Il dataset Titanic è presente sul web in diverse forme. Si può scaricare da qui: https://calmcode.io/datasets/titanic/.
 
+Si può anche caricare direttamente nel codice Python. Bisogna prima installare la libreria Seaborn (pip install seaborn).
 
 '''
 
