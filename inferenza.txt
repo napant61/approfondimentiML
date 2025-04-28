@@ -1,0 +1,58 @@
+INFERENZA NEL MACHINE LEARNING
+
+L'inferenza nel machine learning è il processo di utilizzare un modello addestrato per fare previsioni o prendere decisioni su nuovi dati non visti. È la fase in cui il modello "mette in pratica" ciò che ha imparato durante l'addestramento.
+
+Immagina di aver addestrato un modello per riconoscere i gatti nelle immagini. La fase di inferenza si verifica quando prendi una nuova immagine (che il modello non ha mai visto prima) e la dai in input al modello. Il modello, basandosi sui pattern che ha appreso durante l'addestramento, produrrà un output, ad esempio, la probabilità che l'immagine contenga un gatto.
+
+Ecco alcuni aspetti chiave dell'inferenza nel machine learning:
+
+    Input: I dati di input per l'inferenza sono generalmente simili nel formato ai dati utilizzati per l'addestramento, ma non fanno parte del set di addestramento o di validazione.
+    Modello Addestrato: L'inferenza si basa su un modello che è già stato completamente addestrato e ottimizzato. I pesi e i bias del modello sono fissi.
+    Output: L'output dell'inferenza dipende dal tipo di problema di machine learning:
+        Classificazione: Il modello predice la classe o la categoria a cui appartiene il nuovo dato (ad esempio, "gatto" o "non gatto", "spam" o "non spam"). L'output può essere una singola etichetta di classe o una probabilità per ciascuna classe.
+        Regressione: Il modello predice un valore numerico continuo (ad esempio, il prezzo di una casa, la temperatura futura).
+        Clustering: Il modello assegna il nuovo dato a uno dei cluster appresi durante l'addestramento.
+        Generazione: Il modello genera nuovi dati simili a quelli su cui è stato addestrato (ad esempio, generare testo, immagini o musica).
+    Deployment: L'inferenza avviene spesso in un ambiente di "deployment" o "produzione", dove il modello è integrato in un'applicazione o un sistema reale per fornire previsioni in tempo reale o batch.
+    Performance: Le metriche di performance durante l'inferenza si concentrano spesso sulla latenza (il tempo necessario per fare una previsione) e sulla throughput (il numero di previsioni che possono essere fatte in un certo periodo di tempo), oltre all'accuratezza delle previsioni.
+    Risorse Computazionali: Le risorse necessarie per l'inferenza possono variare significativamente a seconda della complessità del modello. Modelli molto grandi e profondi possono richiedere hardware specializzato come GPU o TPU per un'inferenza efficiente.
+    Batch vs. Real-time: L'inferenza può essere eseguita in batch (elaborando un grande insieme di nuovi dati contemporaneamente) o in tempo reale (elaborando i dati non appena arrivano). La scelta dipende dai requisiti dell'applicazione.
+
+Esempi di Inferenza:
+
+    Un filtro antispam che classifica una nuova email come "spam" o "non spam".
+    Un sistema di raccomandazione che suggerisce un prodotto a un utente in base alla sua cronologia di navigazione.
+    Un'auto a guida autonoma che identifica gli oggetti (pedoni, segnali stradali, altre auto) in tempo reale.
+    Un modello di traduzione automatica che traduce un testo da una lingua all'altra.
+    Un chatbot che genera risposte a domande degli utenti.
+
+In sintesi, l'inferenza è la fase cruciale in cui un modello di machine learning addestrato viene utilizzato per risolvere problemi reali, fornendo previsioni o decisioni su dati nuovi. È il punto in cui il valore del modello viene effettivamente realizzato.
+
+ESEMPIO
+Scenario: Abbiamo addestrato un modello di machine learning per classificare le email come "spam" o "non spam". Questo modello ha imparato dai pattern presenti in un grande set di email etichettate.
+
+Fase di Inferenza:
+
+    Arriva una nuova email: Un utente riceve una nuova email nella sua casella di posta. Il sistema di posta elettronica deve decidere se questa email è legittima ("non spam") o indesiderata ("spam").
+
+    Pre-elaborazione della nuova email: Prima di poter essere data in input al modello, la nuova email deve essere sottoposta alle stesse fasi di pre-elaborazione che sono state applicate ai dati di addestramento. Questo potrebbe includere:
+        Rimozione della punteggiatura e dei caratteri speciali.
+        Conversione del testo in minuscolo.
+        Rimozione delle stop words.
+        Tokenizzazione (divisione in parole).
+
+    Estrazione delle caratteristiche: Dopo la pre-elaborazione, le parole (token) della nuova email vengono trasformate nelle stesse caratteristiche numeriche utilizzate durante l'addestramento. Ad esempio, se durante l'addestramento abbiamo utilizzato la tecnica TF-IDF, applicheremo la stessa trasformazione alla nuova email per ottenere un vettore numerico che rappresenta il suo contenuto testuale.
+
+    Input al modello: Il vettore numerico che rappresenta la nuova email viene fornito come input al modello di machine learning addestrato.
+
+    Predizione del modello: Il modello analizza il vettore di input basandosi sui pattern che ha appreso durante l'addestramento (i pesi e i bias delle sue connessioni). Produce un output, che in questo caso potrebbe essere:
+        Una probabilità che l'email sia spam (ad esempio, 0.92).
+        Una decisione binaria (spam o non spam) basata su una soglia predefinita (ad esempio, se la probabilità di spam è superiore a 0.7, l'email viene classificata come "spam").
+
+    Azione basata sulla predizione: Il sistema di posta elettronica utilizza la predizione del modello per intraprendere un'azione:
+        Se l'email è classificata come "spam", viene spostata nella cartella dello spam.
+        Se l'email è classificata come "non spam", viene visualizzata nella casella di posta in arrivo dell'utente.
+
+In sintesi, l'inferenza in questo esempio è il processo attraverso il quale il modello antispam addestrato prende una nuova email mai vista prima, la analizza e produce una previsione (spam o non spam) che viene poi utilizzata per decidere come gestire quell'email.
+
+Questo processo di inferenza può avvenire in tempo reale, non appena una nuova email arriva, garantendo un'esperienza utente fluida e una protezione continua dallo spam.

@@ -1,0 +1,82 @@
+RESIDUI NEL MACHINE LEARNING
+
+I residui nel machine learning sono un concetto fondamentale, specialmente quando si parla di modelli di regressione. In parole semplici, un residuo è la differenza tra il valore effettivo (o osservato) della variabile target e il valore previsto dal modello.
+
+Immagina di voler prevedere il prezzo di una casa usando un modello di regressione basato su caratteristiche come la dimensione, la posizione e il numero di stanze.
+
+    Hai un insieme di dati di case vendute, dove conosci le caratteristiche e il prezzo di vendita effettivo.
+    Addestri il tuo modello di regressione su questi dati.
+    Quando dai al modello le caratteristiche di una nuova casa, esso produce una previsione del prezzo.
+    Il residuo per quella specifica casa è la differenza tra il prezzo di vendita reale (se lo conoscessimo) e il prezzo previsto dal tuo modello.
+
+Formalmente, il residuo (ei​) per l'i-esima osservazione è calcolato come:
+
+ei​=yi​−y^​i​
+
+dove:
+
+    yi​ è il valore effettivo (osservato) della variabile target per l'i-esima osservazione.
+    y^​i​ è il valore previsto dal modello per l'i-esima osservazione.
+
+Perché i residui sono importanti nel machine learning?
+
+I residui forniscono informazioni cruciali sulla performance e sull'adeguatezza del modello:
+
+    Valutazione della performance: L'analisi dei residui aiuta a capire quanto bene il modello si adatta ai dati. Residui piccoli indicano che le previsioni del modello sono vicine ai valori effettivi, suggerendo una buona performance. Residui grandi indicano che il modello sta commettendo errori significativi.
+    Diagnostica del modello: L'esame dei pattern nei residui può rivelare problemi con il modello o con i dati sottostanti:
+        Non linearità: Se i residui mostrano un pattern sistematico (ad esempio, una curva), potrebbe indicare che la relazione tra le variabili predittive e la variabile target non è lineare e il modello lineare utilizzato non è appropriato.
+        Eteroschedasticità: Se la varianza dei residui non è costante al variare dei valori previsti, ciò viola un'assunzione di molti modelli di regressione (omoschedasticità). Questo può influenzare l'affidabilità delle stime dei coefficienti e dei test di significatività.
+        Non normalità degli errori: Molti test statistici associati ai modelli di regressione assumono che gli errori (e quindi i residui) siano distribuiti normalmente. Deviazioni significative dalla normalità possono influenzare la validità di questi test.
+        Outlier: Residui molto grandi possono indicare la presenza di outlier nei dati, ovvero osservazioni con valori anomali della variabile target che il modello non riesce a prevedere bene.
+        Correlazione degli errori: Se i residui mostrano una correlazione tra osservazioni consecutive (ad esempio, in datiTime series), ciò viola l'assunzione di indipendenza degli errori e suggerisce che il modello potrebbe non aver catturato dipendenze temporali.
+    Miglioramento del modello: L'analisi dei residui può suggerire modi per migliorare il modello, ad esempio aggiungendo nuove caratteristiche, trasformando le variabili esistenti o scegliendo un tipo di modello diverso.
+
+In sintesi, i residui sono uno strumento diagnostico essenziale nel machine learning, in particolare per i modelli di regressione. La loro analisi accurata può fornire preziose indicazioni sulla qualità del modello, sui potenziali problemi e sulle direzioni per il suo miglioramento.
+
+ESEMPIO
+Scenario: Vogliamo prevedere il prezzo di vendita di alcune auto usate in base al loro chilometraggio. Abbiamo un piccolo dataset con il chilometraggio e il prezzo di vendita effettivo di 5 auto.
+
+Dati di esempio:
+Auto	Chilometraggio (km)	Prezzo di Vendita Effettivo (€)
+1	50.000	15.000
+2	80.000	12.000
+3	30.000	18.000
+4	100.000	10.000
+5	60.000	14.000
+
+Modello di Regressione Lineare Semplice (ipotetico):
+
+Supponiamo di aver addestrato un semplice modello di regressione lineare che cerca di prevedere il prezzo in base al chilometraggio. Il modello appreso è:
+
+Prezzo Previsto=20.000−0.1×Chilometraggio
+
+Questo significa che il modello prevede un prezzo di partenza di €20.000 per un'auto con chilometraggio zero, e il prezzo diminuisce di €0.1 (10 centesimi) per ogni chilometro percorso.
+
+Calcolo dei valori previsti e dei residui:
+
+Ora applichiamo il nostro modello ai dati di esempio e calcoliamo i valori previsti e i residui per ogni auto:
+Auto	Chilometraggio (km)	Prezzo Effettivo (€) (yi​)	Prezzo Previsto (€) (y^​i​)	Residuo (€) (ei​=yi​−y^​i​)
+1	50.000	15.000	20.000−(0.1×50.000)=15.000	15.000−15.000=0
+2	80.000	12.000	20.000−(0.1×80.000)=12.000	12.000−12.000=0
+3	30.000	18.000	20.000−(0.1×30.000)=17.000	18.000−17.000=1.000
+4	100.000	10.000	20.000−(0.1×100.000)=10.000	10.000−10.000=0
+5	60.000	14.000	20.000−(0.1×60.000)=14.000	14.000−14.000=0
+
+Analisi dei Residui:
+
+In questo esempio ipotetico, la maggior parte dei residui è zero, il che indicherebbe un adattamento perfetto del modello ai dati (cosa rarissima nella realtà!). Tuttavia, per l'auto 3, il residuo è di €1.000. Questo significa che il prezzo effettivo dell'auto 3 era di €1.000 superiore a quanto previsto dal nostro modello.
+
+Implicazioni:
+
+    Residuo positivo (Auto 3): Il modello ha sottostimato il prezzo di vendita di questa auto. Potrebbe esserci un'altra caratteristica (non inclusa nel nostro modello semplice, come l'età, la marca, le condizioni) che ha aumentato il suo valore.
+    Residui nulli (Auto 1, 2, 4, 5): In questo scenario ideale, il modello ha previsto perfettamente il prezzo di queste auto.
+
+Nella pratica:
+
+In un vero scenario di machine learning, i residui raramente saranno zero. L'analisi dei residui comporterebbe:
+
+    Visualizzazione: Creare grafici dei residui rispetto ai valori previsti, alle variabili predittive o all'ordine dei dati (se si tratta di una serie temporale). Questo può aiutare a identificare pattern come non linearità o eteroschedasticità.
+    Calcolo di statistiche: Calcolare la media dei residui (che idealmente dovrebbe essere vicina a zero), la loro varianza e la loro distribuzione per verificare le assunzioni del modello.
+    Identificazione di outlier: Residui molto grandi in valore assoluto potrebbero indicare outlier nei dati che meritano un'indagine.
+
+Questo semplice esempio illustra come i residui rappresentano l'errore del nostro modello per ogni singola previsione e come la loro analisi può fornire informazioni preziose sulla performance e sulle potenziali limitazioni del modello.

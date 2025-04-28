@@ -1,0 +1,224 @@
+La gestione delle categorie nel machine learning 
+
+La gestione delle categorie (o variabili categoriali) nel machine learning è un passaggio cruciale nella pre-elaborazione dei dati e nell'ingegneria delle caratteristiche. Gli algoritmi di machine learning, nella loro essenza, lavorano con numeri. Pertanto, le variabili che rappresentano categorie (come "colore" con valori "rosso", "blu", "verde" o "città" con valori "Roma", "Milano", "Napoli") devono essere trasformate in un formato numerico comprensibile dal modello.
+
+Ecco alcune strategie comuni per la gestione delle categorie nel machine learning:
+
+1. Codifica Ordinale (Ordinal Encoding):
+
+    Quando usarla: Questa tecnica è appropriata quando le categorie hanno un ordine intrinseco. Ad esempio, livelli di istruzione ("elementare", "media", "superiore", "laurea") o valutazioni ("basso", "medio", "alto").
+    Come funziona: Si assegna un intero univoco a ciascuna categoria in base al loro ordine. Ad esempio: "elementare" -> 1, "media" -> 2, "superiore" -> 3, "laurea" -> 4.
+    Vantaggi: Semplice da implementare e preserva l'informazione sull'ordine.
+    Svantaggi: Introduce una relazione numerica arbitraria tra le categorie, che potrebbe non essere significativa per il modello se l'ordine non è strettamente lineare o se la "distanza" tra le categorie non è uniforme.
+
+ESEMPIO
+ecco un esempio pratico di codifica ordinale:
+
+Scenario: Supponiamo di avere una colonna in un dataset che rappresenta il "Livello di Esperienza" dei dipendenti, con le seguenti categorie: "Principiante", "Intermedio", "Avanzato", "Esperto".
+
+Codifica Ordinale: Poiché esiste un chiaro ordine tra queste categorie, possiamo assegnare loro dei valori numerici in base a questo ordine:
+
+    "Principiante" → 1
+    "Intermedio" → 2
+    "Avanzato" → 3
+    "Esperto" → 4
+
+2. Codifica One-Hot (One-Hot Encoding):
+
+    Quando usarla: Questa è la tecnica più comune per variabili categoriali nominali, ovvero categorie che non hanno un ordine intrinseco (come "colore" o "città").
+    Come funziona: Per ogni categoria unica nella variabile originale, viene creata una nuova colonna binaria (0 o 1). Se l'osservazione appartiene a quella categoria, la colonna corrispondente avrà un valore di 1, altrimenti 0.
+        Esempio: La variabile "colore" con valori "rosso", "blu", "verde" verrebbe trasformata in tre nuove colonne: "colore_rosso", "colore_blu", "colore_verde". Un'osservazione con "colore" = "blu" avrebbe un valore di 0 in "colore_rosso", 1 in "colore_blu" e 0 in "colore_verde".
+    Vantaggi: Non introduce alcuna relazione ordinale tra le categorie. È adatta per la maggior parte degli algoritmi di machine learning.
+    Svantaggi: Può aumentare significativamente la dimensionalità del dataset, soprattutto se la variabile categoriale ha molte categorie uniche (la cosiddetta "maledizione della dimensionalità").
+
+ESEMPIO
+Scenario: Supponiamo di avere una colonna in un dataset che rappresenta il "Colore" di alcuni oggetti, con le seguenti categorie: "Rosso", "Blu", "Verde".
+
+Codifica One-Hot: Poiché non esiste un ordine intrinseco tra questi colori (sono categorie nominali), utilizziamo la codifica one-hot per creare nuove colonne binarie per ciascuna categoria.
+
+Dataset di esempio prima della codifica:
+ID	Oggetto	Colore	Altre Caratteristiche
+1	Mela	Rosso	...
+2	Maglia	Blu	...
+3	Erba	Verde	...
+4	Auto	Rosso	...
+5	Cielo	Blu	...
+6	Foglia	Verde	...
+
+Dataset dopo la codifica one-hot:
+ID	Oggetto	Colore_Rosso	Colore_Blu	Colore_Verde	Altre Caratteristiche
+1	Mela	1	0	0	...
+2	Maglia	0	1	0	...
+3	Erba	0	0	1	...
+4	Auto	1	0	0	...
+5	Cielo	0	1	0	...
+6	Foglia	0	0	1	...
+
+Spiegazione:
+
+    Per ogni colore unico ("Rosso", "Blu", "Verde"), è stata creata una nuova colonna.
+    Per ogni riga del dataset originale, la colonna corrispondente al colore dell'oggetto ha un valore di 1, mentre le altre colonne dei colori hanno un valore di 0.
+    Ad esempio, la prima riga aveva "Colore" = "Rosso", quindi la colonna "Colore_Rosso" ha un valore di 1, mentre "Colore_Blu" e "Colore_Verde" hanno un valore di 0.
+
+
+3. Codifica Binaria (Binary Encoding):
+
+    Quando usarla: Può essere una via di mezzo tra l'ordinal encoding e l'one-hot encoding, specialmente per variabili con un numero elevato di categorie.
+    Come funziona: Le categorie vengono prima assegnate a interi ordinali. Quindi, questi interi vengono convertiti nella loro rappresentazione binaria. Infine, ogni bit della rappresentazione binaria diventa una nuova colonna.
+        Esempio: Se abbiamo 5 categorie, vengono assegnati gli interi da 0 a 4. Le loro rappresentazioni binarie sono 000, 001, 010, 011, 100. Questo creerebbe 3 nuove colonne binarie.
+    Vantaggi: Generalmente crea meno colonne rispetto all'one-hot encoding per un numero elevato di categorie.
+    Svantaggi: Introduce una relazione numerica basata sulla rappresentazione binaria, che potrebbe non essere intrinsecamente significativa per i dati.
+
+ESEMPIO
+Scenario: Supponiamo di avere una colonna che rappresenta il "Numero di Reparti" in un'azienda, con le seguenti categorie (rappresentate come numeri per semplificare la dimostrazione della codifica binaria): 1, 2, 3, 4, 5.
+
+Codifica Binaria:
+
+    Assegnazione di interi ordinali: Le categorie sono già rappresentate da numeri, quindi possiamo considerarle come i loro interi ordinali.
+    Conversione in binario: Convertiamo ciascun intero nella sua rappresentazione binaria.
+        1 -> 001
+        2 -> 010
+        3 -> 011
+        4 -> 100
+        5 -> 101
+    Creazione di nuove colonne: Ogni bit della rappresentazione binaria diventa una nuova colonna.
+
+4. Codifica delle Frequenze (Frequency Encoding):
+
+    Quando usarla: Utile quando la frequenza di una categoria può essere informativa per il modello.
+    Come funziona: Ogni categoria viene sostituita dalla sua frequenza (o proporzione) nel dataset.
+    Vantaggi: Semplice da implementare e cattura informazioni sulla distribuzione delle categorie. Non aumenta la dimensionalità.
+    Svantaggi: Categorie diverse con la stessa frequenza avranno la stessa rappresentazione numerica, portando potenzialmente a perdita di informazioni.
+
+ESEMPIO
+Scenario: Supponiamo di avere una colonna in un dataset che rappresenta la "Città di Residenza" dei clienti. Vogliamo utilizzare la frequenza con cui ogni città appare nel dataset come una caratteristica.
+
+Dataset di esempio prima della codifica:
+ID	Cliente	Città di Residenza	Altre Caratteristiche
+1	Alice	Roma	...
+2	Bob	Milano	...
+3	Charlie	Roma	...
+4	David	Napoli	...
+5	Eve	Milano	...
+6	Frank	Roma	...
+7	Greta	Torino	...
+8	Heidi	Milano	...
+
+Calcolo delle frequenze:
+
+Per prima cosa, calcoliamo la frequenza di ogni città nel dataset:
+
+    Roma: 3 occorrenze
+    Milano: 3 occorrenze
+    Napoli: 1 occorrenza
+    Torino: 1 occorrenza
+
+Scenario: Supponiamo di avere una colonna in un dataset che rappresenta la "Città di Residenza" dei clienti. Vogliamo utilizzare la frequenza con cui ogni città appare nel dataset come una caratteristica.
+
+Dataset di esempio prima della codifica:
+ID	Cliente	Città di Residenza	Altre Caratteristiche
+1	Alice	Roma	...
+2	Bob	Milano	...
+3	Charlie	Roma	...
+4	David	Napoli	...
+5	Eve	Milano	...
+6	Frank	Roma	...
+7	Greta	Torino	...
+8	Heidi	Milano	...
+
+Calcolo delle frequenze:
+
+Per prima cosa, calcoliamo la frequenza di ogni città nel dataset:
+
+    Roma: 3 occorrenze
+    Milano: 3 occorrenze
+    Napoli: 1 occorrenza
+    Torino: 1 occorrenza
+
+Dataset dopo la codifica della frequenza:
+ID	Cliente	Città di Residenza (Codificata)	Altre Caratteristiche
+1	Alice	3	...
+2	Bob	3	...
+3	Charlie	3	...
+4	David	1	...
+5	Eve	3	...
+6	Frank	3	...
+7	Greta	1	...
+8	Heidi	3	...
+
+Spiegazione:
+
+    La colonna "Città di Residenza" è stata sostituita con la frequenza di apparizione di ciascuna città nel dataset.
+    Ad esempio, "Roma" e "Milano" compaiono 3 volte, quindi tutte le istanze di "Roma" e "Milano" sono state sostituite con il valore 3.
+    "Napoli" e "Torino" compaiono 1 volta ciascuna, quindi sono state sostituite con il valore 1.
+
+La codifica della frequenza è semplice da implementare e può essere utile in scenari in cui la popolarità o la rarità di una categoria può essere un indicatore importante per il modello. Tuttavia, è importante notare che categorie diverse con la stessa frequenza avranno la stessa codifica, il che potrebbe portare a una perdita di informazioni distintive.
+
+5. Codifica Target (Target Encoding):
+
+    Quando usarla: Efficace per problemi di classificazione e regressione. Utilizza la variabile target per codificare le categorie.
+    Come funziona: Per ogni categoria, viene calcolata la media (per regressione) o la probabilità (per classificazione) della variabile target condizionata a quella categoria. La categoria viene quindi sostituita con questo valore.
+        Esempio (classificazione binaria): Per la categoria "città" = "Roma", si calcola la percentuale di osservazioni in cui la variabile target è 1 (ad esempio, "acquisto effettuato") tra tutte le osservazioni in cui "città" è "Roma".
+    Vantaggi: Può catturare informazioni importanti sulla relazione tra la categoria e la variabile target, portando a modelli più performanti.
+    Svantaggi: Rischio di "data leakage" (informazioni sulla variabile target che "trapelano" nelle caratteristiche di addestramento), soprattutto con poche osservazioni per categoria. È importante utilizzare tecniche di cross-validation appropriate o regolarizzazione per mitigare questo rischio.
+
+ESEMPIO
+ecco un esempio di codifica target per un problema di classificazione binaria (ad esempio, prevedere se un cliente farà clic su un annuncio online).
+
+Scenario: Abbiamo un dataset con informazioni sui clienti e la colonna "Paese" come variabile categoriale. La nostra variabile target è "Cliccato" (1 se il cliente ha cliccato sull'annuncio, 0 altrimenti). Vogliamo codificare la colonna "Paese" in base al tasso di clic medio per ogni paese.
+
+Dataset di esempio prima della codifica:
+ID	Paese	Età	Interessi	Cliccato
+1	USA	30	Sport	        1
+2	Canada	25	Musica	        0
+3	USA	40	Tecnologia	1
+4	UK	35	Cucina	        0
+5	Canada	32	Viaggi	        1
+6	USA	28	Sport	        0
+7	UK	45	Tecnologia	1
+8	Canada	22	Musica	        0
+9	Francia	50	Cucina	        0
+10	USA	38	Viaggi	        1
+
+Calcolo del target encoding (tasso di clic medio per paese):
+
+Calcoliamo la media della variabile target ("Cliccato") per ogni paese:
+
+    USA: (1 + 1 + 0 + 1) / 4 = 0.75
+    Canada: (0 + 1 + 0) / 3 = 0.33
+    UK: (0 + 1) / 2 = 0.50
+    Francia: 0 / 1 = 0.00
+
+Dataset dopo la codifica target:
+ID	Paese (Codificato)	Età	Interessi	Cliccato
+1	0.75	30	Sport	1
+2	0.33	25	Musica	0
+3	0.75	40	Tecnologia	1
+4	0.50	35	Cucina	0
+5	0.33	32	Viaggi	1
+6	0.75	28	Sport	0
+7	0.50	45	Tecnologia	1
+8	0.33	22	Musica	0
+9	0.00	50	Cucina	0
+10	0.75	38	Viaggi	1
+
+Spiegazione:
+
+    La colonna "Paese" è stata sostituita con il tasso di clic medio osservato per ogni paese nel set di dati di addestramento.
+    Ad esempio, tutte le istanze di "USA" sono state sostituite con 0.75, "Canada" con 0.33, "UK" con 0.50 e "Francia" con 0.00.
+
+
+
+Considerazioni Importanti:
+
+    Tipo di algoritmo: Alcuni algoritmi basati su alberi decisionali (come Random Forest e Gradient Boosting) possono gestire direttamente variabili categoriali senza la necessità di una codifica esplicita (anche se spesso la codifica può comunque migliorare le prestazioni).
+    Cardinalità: Il numero di categorie uniche in una variabile è un fattore cruciale nella scelta della tecnica di codifica. L'one-hot encoding su variabili con alta cardinalità può portare a un'esplosione dimensionale.
+    Informazione ordinale: Se esiste un ordine significativo tra le categorie, l'ordinal encoding (o una codifica basata su questo ordine) potrebbe essere più appropriata.
+    Interpretazione del modello: L'one-hot encoding rende spesso più facile interpretare i coefficienti dei modelli lineari per ogni categoria.
+    Data leakage: Prestare particolare attenzione al data leakage quando si utilizzano tecniche come il target encoding.
+
+Implementazione:
+
+La maggior parte delle librerie di machine learning in Python, come scikit-learn e category_encoders, forniscono strumenti e classi per implementare facilmente queste tecniche di codifica.
+
+In sintesi, la scelta della tecnica di gestione delle categorie dipende dalle caratteristiche specifiche dei dati, dal tipo di algoritmo che si intende utilizzare e dagli obiettivi del progetto di machine learning. È spesso utile sperimentare con diverse tecniche per valutare quale produce i migliori risultati per il problema specifico.
